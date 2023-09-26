@@ -75,7 +75,6 @@ const Layout = () => {
             if (!res?.data.length) return;
             setipfsHash(res?.data);
             console.log(res?.data);
-            mint();
         } catch(e) {
             console.log('error in layout: ', e)
         }
@@ -86,14 +85,16 @@ const Layout = () => {
         console.log(usernameInput)
         if (!usernameInput || !address || availability !== true) return;
         console.log(wcError)
-        //if (wcError || !writeAsync ) return;
+        if (wcError || !writeAsync ) return;
         const txHash = await writeAsync?.();
         console.log(txHash)
 
     }, [usernameInput, address, ipfsHash, availability, writeAsync, wcError]);
 
     //useEffect to track status of tx
-
+    useEffect(() => {
+        mint();
+    }, [ipfsHash, writeAsync, wcError]);
 
     return (
         <Container>
