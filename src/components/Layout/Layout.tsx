@@ -73,18 +73,22 @@ const Layout = () => {
             if (!availability || !usernameInput || !address) return;
             const res = await uploadMetadata(chainId, usernameInput, address);
             if (!res?.data.length) return;
-            setipfsHash( res.data);
+            setipfsHash(res?.data);
             console.log(res?.data);
             mint();
         } catch(e) {
             console.log('error in layout: ', e)
         }
-    }, [chainId, usernameInput, address, availability]);
+    }, [chainId, usernameInput, address, availability, ipfsHash, writeAsync, wcError]);
 
     const mint = useCallback(async () => {
-        if (!usernameInput || !address || !ipfsHash || availability !== true) return;
-        if (wcError || !writeAsync ) return;
+        console.log(ipfsHash)
+        console.log(usernameInput)
+        if (!usernameInput || !address || availability !== true) return;
+        console.log(wcError)
+        //if (wcError || !writeAsync ) return;
         const txHash = await writeAsync?.();
+        console.log(txHash)
 
     }, [usernameInput, address, ipfsHash, availability, writeAsync, wcError]);
 
