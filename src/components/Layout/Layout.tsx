@@ -84,8 +84,8 @@ const Layout = () => {
         console.log(ipfsHash)
         console.log(usernameInput)
         if (!usernameInput || !address || availability !== true) return;
-        console.log(wcError)
-        if (wcError || !writeAsync ) return;
+        //console.log(wcError)
+        //if (wcError || !writeAsync ) return;
         const txHash = await writeAsync?.();
         console.log(txHash)
 
