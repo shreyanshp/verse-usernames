@@ -1,31 +1,41 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback } from 'react';
 
 import Button from '../Button';
 
 import {
     ButtonContainer
 } from './styled';
+import Loader from '../Loader';
 
 interface MintButtonProps {
     label: string;
     createMetadata: () => void;
+    status?: string;
     disabled?: boolean;
 }
 
 const MintButton:FC<MintButtonProps> = ({
     label,
     createMetadata,
+    status,
     disabled = false
 }) => {
+
+    const mintUsername = useCallback(async () => {
+        await createMetadata();
+    }, [createMetadata]);
+
     return (
         <ButtonContainer>
             <Button
                 fullWidth
                 design='primary'
-                onClick={() => createMetadata()}
                 disabled={disabled}
-            >   
-                {label}
+                onClick={mintUsername}
+            >
+                {status === "loading" && <Loader/>}
+                {status === "error" && 'Mint Failed'}
+                {(status !== "loading" && status !== "error") && label}
             </Button>
         </ButtonContainer>        
     );
